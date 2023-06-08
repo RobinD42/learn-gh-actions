@@ -112,7 +112,7 @@ jobs:
       - name: build stage2
         shell: bash
         run: |
-          invoke build2 --os=${{ matrix.os }} --pyver=${{ matrix.python-version }} --arch=${{ matrix.architecture}}
+          invoke build2 ${{ matrix.os }} ${{ matrix.python-version }} ${{ matrix.architecture}}
 
       # upload using the same artifact on all instances to test adding them all to one archive
       - name: upload stage2 artifact
