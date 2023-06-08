@@ -68,7 +68,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ['3.9', '3.10', '3.11']
-        architechture: ['x86', 'x64']
+        architecture: ['x86', 'x64']
         # Exclude x86 configs on non-Windows OSs
         exclude:
           - os: ubuntu-latest
@@ -87,7 +87,8 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: '${{ matrix.python-version }}'
+          python-version: ${{ matrix.python-version }}
+          architecture: ${{ matrix.architecture }}
           cache: 'pip'
 
       - name: Install dependencies
