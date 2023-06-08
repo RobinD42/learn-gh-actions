@@ -18,5 +18,6 @@ def build(ctx):
     os.makedirs('dist', exist_ok=True)
     file_name = f'dist/my_archive-{get_version()}.zzz'
     with open(file_name, 'w') as f:
-        f.write('This is just a dummy file to simulate having built something.')
+        f.write('This is just a dummy file to simulate having built something.\n')
+        f.write(f'Version: {get_version()}\n')
     print(f'Created: {file_name}')
