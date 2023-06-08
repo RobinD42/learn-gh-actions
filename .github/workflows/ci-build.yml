@@ -13,9 +13,8 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
 jobs:
-  # This workflow contains a single job called "build"
   build-stage-1:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -23,9 +22,7 @@ jobs:
     outputs:
       VERSION:
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
       - name: Set up Python 3.11
@@ -45,7 +42,6 @@ jobs:
         run: |
             VERSION=$(invoke version)
             echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-
             echo "Building $VERSION"
             invoke build
             ls -al dist
@@ -53,12 +49,47 @@ jobs:
       - name: Check output
         shell: bash
         run: |
-          echo "Do we get the output value here?"
-          echo "--> ${{ steps.runbuild.outputs.VERSION }}"
+          echo "Do we get the output value here? "--> ${{ steps.runbuild.outputs.VERSION }}"
           echo "What about here -->" $VERSION
 
       - name: Save workflow artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build-${{ steps.runbuild.outputs.VERSION }}
+          name: build-stage-1
           path: dist/my_archive-${{ steps.runbuild.outputs.VERSION }}.zzz
+
+
+
+
+
+  build-stage-2:
+    needs: build-stage-1
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.9', '3.10', '3.11']
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: '${{ matrix.python-version }}'
+          cache: 'pip'
+
+      - name: download stage-1 artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-stage-1
+
+      - name: Check workspace
+        shell: bash
+        run: |
+          echo "Workspace: " $PWD
+          ls -alR
