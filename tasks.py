@@ -26,9 +26,11 @@ def build(ctx):
 
 
 @task
-def build2(ctx, os, pyver, arch):
+def build2(ctx, the_os, pyver, arch):
+    if '-' in the_os:
+        the_os = the_os.split('-')[0]
     os.makedirs('dist', exist_ok=True)
-    file_name = f'dist/my-build2-{get_version()}-{os}-{pyver}-{arch}.txt'
+    file_name = f'dist/my-build2-{get_version()}-{the_os}-{pyver}-{arch}.txt'
     with open(file_name, 'w') as f:
         f.write('This is just a dummy file to simulate having built something.\n')
         f.write(f'Version: {get_version()}\n')
