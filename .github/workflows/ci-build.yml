@@ -50,7 +50,7 @@ jobs:
         shell: bash
         run: |
           echo "Do we get the output value here? --> ${{ steps.runbuild.outputs.VERSION }}"
-          echo "What about here -->" $VERSION
+          echo "What about here --> $VERSION"
 
       - name: Save workflow artifact
         uses: actions/upload-artifact@v3
@@ -114,9 +114,17 @@ jobs:
         run: |
           invoke build2 ${{ matrix.os }} ${{ matrix.python-version }} ${{ matrix.architecture}}
 
-      # upload using the same artifact on all instances to test adding them all to one archive
+      # # upload using the same artifact on all instances to test adding them all to one archive
+      # - name: upload stage2 artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: build-stage2
+      #     path: dist/my-build2-*.txt
+
+      # Separate artifacts, and only for some platforms
       - name: upload stage2 artifact
         uses: actions/upload-artifact@v3
+        if: ${{ matrix.os != 'ubuntu-latest' }}
         with:
-          name: build-stage2
+          name: build-stage2-${{ matrix.os }}-py${{ matrix.python-version }}-${{ matrix.architecture}}
           path: dist/my-build2-*.txt
