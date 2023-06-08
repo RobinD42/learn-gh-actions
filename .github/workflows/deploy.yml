@@ -5,17 +5,12 @@ name: deploy
 on:
   workflow_dispatch:
     inputs:
-      git_ref:
-        description: The branch, tag, or ref to pull for the build
-        required: false
-        default: main
       release:
         description: Do a release-mode build
         default: false
         type: boolean
 
 env:
-  REF: "${{ inputs.git_ref }}"
   RELEASE: "${{ inputs.release }}"
 
 jobs:
@@ -23,15 +18,9 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    outputs:
-      VERSION:
-
     steps:
       - name: check environment
         run: |
-          echo "REF: $REF"
           echo "RELEASE: $RELEASE"
 
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ git_ref }}
