@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       release:
-        description: Do a release-mode build
+        description: Do a release-mode build?
         default: false
         type: boolean
 
@@ -19,8 +19,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+
       - name: check environment
         run: |
           echo "RELEASE: $RELEASE"
 
-      - uses: actions/checkout@v3
+      - name: conditional step
+        if: ${{ inputs.release }}
+        run: echo release mode is true
+
