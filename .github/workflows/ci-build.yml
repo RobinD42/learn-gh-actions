@@ -60,6 +60,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-${{ steps.runbuild.outputs.VERSION }}
-          path: dist/wmy_archive-${{ steps.generate.outputs.VERSION }}.zzz
-
-
+          path: dist/wmy_archive-*.zzz
