@@ -55,9 +55,10 @@ jobs:
         run: |
           echo "Do we get the output value here?"
           echo "--> ${{ steps.runbuild.outputs.VERSION }}"
+          echo "What about here -->" $VERSION
 
       - name: Save workflow artifact
         uses: actions/upload-artifact@v3
         with:
           name: build-${{ steps.runbuild.outputs.VERSION }}
-          path: dist/my_archive-*.zzz
+          path: dist/my_archive-${{ steps.runbuild.outputs.VERSION }}.zzz
