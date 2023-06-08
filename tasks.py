@@ -11,11 +11,12 @@ def get_version():
 
 @task
 def version(ctx):
-    return get_version()
+    print(get_version())
 
 @task
 def build(ctx):
     os.makedirs('dist', exist_ok=True)
-    with open(f'dist/my_archive-{get_version()}.zzz', 'w') as f:
+    file_name = f'dist/my_archive-{get_version()}.zzz'
+    with open(file_name, 'w') as f:
         f.write('This is just a dummy file to simulate having built something.')
-
+    print(f'Created: {file_name}')

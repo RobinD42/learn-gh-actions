@@ -56,7 +56,7 @@ jobs:
           echo "Do we get the output value here?"
           echo "--> ${{ steps.runbuild.outputs.VERSION }}"
 
-      - name: Save sdist as workflow artifact
+      - name: Save workflow artifact
         uses: actions/upload-artifact@v3
         with:
           name: build-${{ steps.runbuild.outputs.VERSION }}
