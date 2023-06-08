@@ -40,6 +40,7 @@ jobs:
           python -m pip install --upgrade -r requirements.txt
 
       - name: Run the build script
+        id: runbuild
         shell: bash
         run: |
             VERSION=$(invoke version)
@@ -47,6 +48,18 @@ jobs:
 
             echo "Building $VERSION"
             invoke build
-
             ls -al dist
+
+      - name: Check output
+        shell: bash
+        run: |
+          echo "Do we get the output value here?"
+          echo "--> ${{ steps.runbuild.outputs.VERSION }}"
+
+      - name: Save sdist as workflow artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-${{ steps.runbuild.outputs.VERSION }}
+          path: dist/wmy_archive-${{ steps.generate.outputs.VERSION }}.zzz
+
 
