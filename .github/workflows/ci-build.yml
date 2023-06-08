@@ -49,7 +49,7 @@ jobs:
       - name: Check output
         shell: bash
         run: |
-          echo "Do we get the output value here? "--> ${{ steps.runbuild.outputs.VERSION }}"
+          echo "Do we get the output value here? --> ${{ steps.runbuild.outputs.VERSION }}"
           echo "What about here -->" $VERSION
 
       - name: Save workflow artifact
