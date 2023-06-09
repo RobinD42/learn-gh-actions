@@ -96,13 +96,17 @@ jobs:
               short_name=linux
           elif [ ${{ matrix.os }} == macos-latest ]; then
               short_name=macos
-          elif [ ${{ matrix.os }} == windows-latest && ${{ matrix.architecture }} == 'x64']; then
-              short_name=win64
-          else
-              short_name=win32
+          elif [ ${{ matrix.os }} == windows-latest ]; then
+              if ${{ matrix.architecture }} == 'x64']; then
+                  short_name=win64
+              else
+                  short_name=win32
+              fi
           fi
           echo "short_name=$short_name" >> "$GITHUB_OUTPUT"
           echo "cannonical_id=$short_name-py${{ matrix.python-version }}-${{ matrix.architecture}}" >> "$GITHUB_OUTPUT"
+
+          echo short_name: $short_name
 
 
       - name: Checkout
