@@ -97,7 +97,7 @@ jobs:
           elif [ ${{ matrix.os }} == macos-latest ]; then
               short_name=macos
           elif [ ${{ matrix.os }} == windows-latest ]; then
-              if ${{ matrix.architecture }} == x64 ]; then
+              if [ ${{ matrix.architecture }} == x64 ]; then
                   short_name=win64
               else
                   short_name=win32
