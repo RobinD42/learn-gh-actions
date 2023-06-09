@@ -17,7 +17,7 @@ defaults:
     shell: bash
 
 env:
-  PYTHONUNBUFFERED: TRUE
+  PYTHONUNBUFFERED: 1
 
 jobs:
   build-stage-1:
@@ -84,7 +84,27 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
+    outputs:
+      short_name: ${{ steps.init.outputs.short_name }}
+      cannonical_id: ${{ steps.init.outputs.cannonical_id }}
+
     steps:
+      - name: initialize variables
+        id: init
+        run: |
+          if [ ${{ matrix.os }} == ubuntu-latest ]; then
+              short_name=linux
+          elif [ ${{ matrix.os }} == macos-latest ]; then
+              short_name=macos
+          elif [ ${{ matrix.os }} == windows-latest && ${{ matrix.architecture }} == 'x64']; then
+              short_name=win64
+          else
+              short_name=win32
+          fi
+          echo "short_name=$short_name" >> "$GITHUB_OUTPUT"
+          echo "cannonical_id=$short_name-py${{ matrix.python-version }}-${{ matrix.architecture}}" >> "$GITHUB_OUTPUT"
+
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -132,5 +152,5 @@ jobs:
         uses: actions/upload-artifact@v3
         if: ${{ matrix.os != 'ubuntu-latest' }}
         with:
-          name: build-stage2-${{ matrix.os }}-py${{ matrix.python-version }}-${{ matrix.architecture}}
+          name: build-stage2-${{ steps.init.outputs.cannonical_id }}
           path: dist/my-build2-*.txt
