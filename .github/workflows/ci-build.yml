@@ -139,7 +139,6 @@ jobs:
                   libexpat1-dev \
                   libgl1-mesa-dev \
                   libglu1-mesa-dev \
-                  libgstreamer-plugins-base1.0-dev \
                   libgtk-3-dev \
                   libjpeg-dev \
                   libnotify-dev \
@@ -148,8 +147,11 @@ jobs:
                   libtiff-dev \
                   libwebkit2gtk-4.0-dev \
                   libxtst-dev \
-                  build-essential \
-                  libgstreamer-plugins-bad1.0-dev \
+
+
+      # libgstreamer-plugins-base1.0-dev \
+      # build-essential \
+      # libgstreamer-plugins-bad1.0-dev \
 
 
       - name: download stage1 artifact
