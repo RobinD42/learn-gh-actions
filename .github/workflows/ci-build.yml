@@ -147,6 +147,7 @@ jobs:
                   libtiff-dev \
                   libwebkit2gtk-4.0-dev \
                   libxtst-dev \
+                  libgstreamer1.0-dev \
 
 
       # libgstreamer-plugins-base1.0-dev \
